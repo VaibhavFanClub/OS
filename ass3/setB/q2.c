@@ -89,73 +89,10 @@ void displaydata()
 		for(j=0; j<nor; j++)
 			printf("%4d", N[i][j]);
 	}
-	printf("\nAvailable");
+	printf("\n\nAvailable");
 	for(i=0;i<nor;i++)
 		printf("%4d", AV[i]);
-}
-
-int checkneed(int pno)
-{
-	int i;
-	for(i = 0; i<nor; i++)
-		if(N[pno][i]>AV[i])
-			return 0;
-	return 1;
-}
-
-void banker()
-{
-	int p=0, j=0, k=0, flag=0, safe[10];
-	while(flag<2)
-	{
-		if(!finish[p])
-		{
-			printf("\n\nNeed of process P%d(,",p);
-			for(j=0;j<nor;j++)
-				printf("%d,", N[p][j]);
-			if(checkneed(p))
-			{
-				printf(") <= Available(");
-				for(j=0;j<nor;j++)
-					printf("%d,",AV[j]);
-				printf(")");
-				
-				printf("\nNeed is Satisfied, So process P%d can be granted required resources.\nAfter P%d finishes, it will release all the resources.", p, p);
-				
-				for(j=0;j<nor;j++)
-					AV[j] = AV[j] + A[p][j];
-					
-				printf("New Available = ");
-				for(j=0;j<nor;j++)
-					printf("%d ",AV[j]);
-				finish[p] = 1;
-				safe[k++] = p;
-			}
-			else
-			{
-				printf(") > Available (");
-				for(j = 0;j<nor;j++)
-					printf("%d,", AV[j]);
-				printf(")");
-				
-				printf("\nNeed is not satisfied, So process P%d cannot be granted required resources.\nProcess P%d has to wait.", p, p);
-			}
-		}
-		if((p+1)%nop == 0)
-			flag++;
-		p = (p+1)%nop;
-	}
-	
-	if(k == nop)
-	{
-		printf("\nSystem is in Safe state...");
-		printf("\nSafe Sequence: ");
-		for(j=0;j<k;j++)
-			printf("P%d->", safe[j]);	
-	}
-	else{
-		printf("\nSystem is NOT in Safe state...");
-	}
+	printf("\n");
 }
 
 int main()
@@ -176,7 +113,6 @@ int main()
 	calcav();
 	calcneed();
 	displaydata();
-	banker();
 	
 	return 0;
 }
